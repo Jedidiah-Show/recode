@@ -6,17 +6,16 @@ class pipe:
         result = arg
         for func in self.funcs:
             result = func(result)
-        print(result)
         return result
 
 class compose:
     def __init__(self, *funcs):
-        self.funcs = funcs
+        self.funcs = funcs[::-1]
 
     def __call__(self, args):
         result = args
-        for i in range(len(self.funcs)-1, -1, -1):
-            result = self.funcs[i](result)
+        for func in self.funcs:
+            result = func(result)
         return result
 
 def strip(text):
@@ -35,12 +34,14 @@ def remove_vowels(text):
     return result
 
 def reverse(text):
-    result= ""
-    
-    for i in range(len(text)-1, -1, -1):
-        result += text[i]
-    return result
-    
+    # result= ""
+    # 
+    # for i in range(len(text)-1, -1, -1):
+    #     result += text[i]
+    # return result
+    if len(text) == 1:
+        return text
+    return text[-1] + reverse(text[:-1])
 
 
 add_one = lambda x: x + 1
